@@ -1,0 +1,139 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: 42.6455139
+  longitude: 23.3421793
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Sofia
+  # Customization file
+  customize: !include customize.yaml
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components: info
+    homeassistant.components.climate: debug
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  ssl_certificate: !secret ssl_certificate
+  ssl_key: !secret ssl_key
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Weather prediction
+sensor:
+  - platform: luftdaten
+    name: Sensor 1
+    sensorid: 6388
+    monitored_conditions:
+      - P1
+      - P2
+
+  - platform: luftdaten
+    name: Sensor 2
+    sensorid: 6679
+    monitored_conditions:
+      - P1
+      - P2
+
+  - platform: jsonrest
+    resource: https://api.foobot.io/v2/device/2502466643404480/datapoint/0/last/0/
+    name: FooBot
+    scan_interval: 600
+    headers:
+      X-API-KEY-TOKEN: !secret foobot_api_token
+      Accept: application/json
+
+  - platform: template
+    name: FooBot_data
+    sensors:
+      foobot_pm:
+        friendly_name: PM
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][1]) }}'
+        unit_of_measurement: 'ug/m3'
+      foobot_temp:
+        friendly_name: Temperature
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][2]) }}'
+        unit_of_measurement: 'C'
+      foobot_humidity:
+        friendly_name: Humidity
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][3]) }}'
+        unit_of_measurement: '%'
+      foobot_voc:
+        friendly_name: VOC
+        value_template: '{{ states.sensor.foobot.attributes.datapoints[0][5] | int  }}'
+        unit_of_measurement: 'ppb'
+      foobot_polution:
+        friendly_name: Polution
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][6]) }}'
+        unit_of_measurement: '%'
+
+  - platform: openweathermap
+    api_key: !secret openweathermap_api_key
+    monitored_conditions:
+      - weather
+      - temperature
+      - wind_speed
+      - wind_bearing
+      - humidity
+      - pressure
+      - clouds
+      - rain
+      - snow
+
+# Text to speech
+tts:
+  - platform: google
+
+climate:
+  - platform: mydemo
+
+# Cloud
+cloud:
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml

@@ -1,0 +1,56 @@
+default_view:
+  name: Home
+  view: yes
+  entities:
+    - group.home_iaq
+    - group.climate_1
+    - group.climate_2
+
+exterior:
+  name: Exterior
+  view: yes
+  entities:
+    - group.sun
+    - group.outdor_iaq
+    - group.outdor_weather
+
+sun:
+  name: Sun
+  entities:
+    - sun.sun
+
+outdor_iaq:
+  name: Outdor IAQ
+  entities:
+    - sensor.sensor_1_pm10
+    - sensor.sensor_2_pm10
+    - sensor.sensor_1_pm25
+    - sensor.sensor_2_pm25
+
+outdor_weather:
+  name: Weather
+  entities:
+    - sensor.owm_condition
+    - sensor.owm_humidity
+    - sensor.owm_temperature
+    - sensor.owm_wind_speed
+    - sensor.owm_cloud_coverage
+
+home_iaq:
+  name: Home IAQ
+  entities:
+    - sensor.foobot_humidity
+    - sensor.foobot_temp
+    - sensor.foobot_polution
+    - sensor.foobot_pm
+    - sensor.foobot_voc
+
+climate_1:
+  name: HVAC - детска
+  entities:
+    - climate.panasonic
+
+climate_2:
+  name: HVAC - спалня
+  entities:
+    - climate.toshiba
