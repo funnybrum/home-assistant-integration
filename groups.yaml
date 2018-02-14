@@ -10,9 +10,10 @@ exterior:
   name: Exterior
   view: yes
   entities:
-    - group.sun
     - group.outdor_iaq
-    - group.outdor_weather
+    - group.outdor_weather_owm
+    - group.outdor_weather_wg
+#    - group.outdor_iaq_additional
 
 sun:
   name: Sun
@@ -22,19 +23,45 @@ sun:
 outdor_iaq:
   name: Outdor IAQ
   entities:
-    - sensor.sensor_1_pm10
-    - sensor.sensor_2_pm10
-    - sensor.sensor_1_pm25
-    - sensor.sensor_2_pm25
+    - sensor.nsa_pm10
+    - sensor.nsa_pm25
+    - sensor.nsa_temperature
+    - sensor.nsa_humidity
 
-outdor_weather:
-  name: Weather
+outdor_iaq_additional:
+  name: Outdor IAQ additional
   entities:
-    - sensor.owm_condition
-    - sensor.owm_humidity
+    - sensor.nsa_pm10
+    - sensor.nsa_pm25
+    - sensor.nsa_temperature
+    - sensor.nsa_humidity
+    - sensor.nsa_pressure
+    - sensor.park_tu_pm10
+    - sensor.park_tu_pm25
+    - sensor.park_tu_temperature
+    - sensor.park_tu_humidity
+    - sensor.park_tu_pressure
+    - sensor.kaufland_pm10
+    - sensor.kaufland_pm25
+    - sensor.kaufland_temperature
+    - sensor.kaufland_humidity
+    - sensor.kaufland_pressure
+
+outdor_weather_owm:
+  name: Weather OWM
+  entities:
     - sensor.owm_temperature
+    - sensor.owm_humidity
     - sensor.owm_wind_speed
-    - sensor.owm_cloud_coverage
+    - sensor.owm_condition
+
+outdor_weather_wg:
+  name: Weather WG
+  entities:
+    - sensor.pws_temp_c
+    - sensor.pws_relative_humidity
+    - sensor.pws_wind_kph
+    - sensor.pws_weather
 
 home_iaq:
   name: Home IAQ

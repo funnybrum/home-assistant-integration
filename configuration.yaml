@@ -33,6 +33,8 @@ http:
   api_password: !secret http_password
   ssl_certificate: !secret ssl_certificate
   ssl_key: !secret ssl_key
+  server_port: 8123
+  server_host: 0.0.0.0
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
 
@@ -66,18 +68,49 @@ sun:
 # Weather prediction
 sensor:
   - platform: luftdaten
-    name: Sensor 1
-    sensorid: 6388
+    name: NSA
+    sensorid: 4178
     monitored_conditions:
       - P1
       - P2
 
   - platform: luftdaten
-    name: Sensor 2
-    sensorid: 6679
+    name: NSA
+    sensorid: 4179
+    monitored_conditions:
+      - temperature
+      - pressure
+      - humidity
+
+  - platform: luftdaten
+    name: Park TU
+    sensorid: 2035
     monitored_conditions:
       - P1
       - P2
+
+  - platform: luftdaten
+    name: Park TU
+    sensorid: 2036
+    monitored_conditions:
+      - temperature
+      - pressure
+      - humidity
+
+  - platform: luftdaten
+    name: Kaufland
+    sensorid: 1471
+    monitored_conditions:
+      - P1
+      - P2
+
+  - platform: luftdaten
+    name: Kaufland
+    sensorid: 1472
+    monitored_conditions:
+      - temperature
+      - pressure
+      - humidity
 
   - platform: jsonrest
     resource: https://api.foobot.io/v2/device/2502466643404480/datapoint/0/last/0/
@@ -124,6 +157,21 @@ sensor:
       - rain
       - snow
 
+  - platform: wunderground
+    api_key: !secret wunderground_api_key
+    monitored_conditions:
+      - temp_c
+      - relative_humidity
+      - wind_kph
+      - feelslike_c
+      - precip_1d_mm
+      - precip_1d
+      - temp_high_1d_c
+      - temp_low_1d_c
+      - heat_index_c
+      - pressure_mb
+      - weather
+
 # Text to speech
 tts:
   - platform: google
@@ -133,6 +181,12 @@ climate:
 
 # Cloud
 cloud:
+
+influxdb:
+  host: 127.0.0.1
+  username: hass
+  password: hass
+#  database: test
 
 group: !include groups.yaml
 automation: !include automations.yaml
