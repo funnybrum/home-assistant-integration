@@ -10,26 +10,36 @@ exterior:
   name: Exterior
   view: yes
   entities:
-    - group.outdor_iaq
+    - group.outdor_aq_nsa
+    - group.outdor_aq_park_tu
     - group.outdor_weather_owm
     - group.outdor_weather_wg
-#    - group.outdor_iaq_additional
+#    - group.outdor_aq_additional
 
 sun:
   name: Sun
   entities:
     - sun.sun
 
-outdor_iaq:
-  name: Outdor IAQ
+outdor_aq_nsa:
+  name: Outdor AQ (NSA)
   entities:
     - sensor.nsa_pm10
     - sensor.nsa_pm25
     - sensor.nsa_temperature
     - sensor.nsa_humidity
 
-outdor_iaq_additional:
-  name: Outdor IAQ additional
+outdor_aq_park_tu:
+  name: Outdor AQ (TU)
+  entities:
+    - sensor.park_tu_pm10
+    - sensor.park_tu_pm25
+    - sensor.park_tu_temperature
+    - sensor.park_tu_humidity
+
+
+outdor_aq_additional:
+  name: Outdor AQ additional
   entities:
     - sensor.nsa_pm10
     - sensor.nsa_pm25
@@ -56,7 +66,7 @@ outdor_weather_owm:
     - sensor.owm_condition
 
 outdor_weather_wg:
-  name: Weather WG
+  name: Weather WU
   entities:
     - sensor.pws_temp_c
     - sensor.pws_relative_humidity
