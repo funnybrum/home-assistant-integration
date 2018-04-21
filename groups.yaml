@@ -3,6 +3,7 @@ default_view:
   view: yes
   entities:
     - group.home_iaq
+    - group.home_iaq_t
     - group.climate_1
     - group.climate_2
 
@@ -81,6 +82,15 @@ home_iaq:
     - sensor.foobot_polution
     - sensor.foobot_pm
     - sensor.foobot_voc
+
+home_iaq_t:
+  name: Home IAQ test
+  entities:
+    - sensor.aqm_temp
+    - sensor.aqm_humidity
+    - sensor.aqm_pressure
+    - sensor.aqm_voc
+    - sensor.aqm_co2e
 
 climate_1:
   name: HVAC - детска

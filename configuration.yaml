@@ -127,22 +127,55 @@ sensor:
         friendly_name: PM
         value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][1]) }}'
         unit_of_measurement: 'ug/m3'
+      foobot_voc:
+        friendly_name: VOC
+        value_template: '{{ states.sensor.foobot.attributes.datapoints[0][2] | int  }}'
+        unit_of_measurement: 'ppb'
+      foobot_co2e:
+        friendly_name: CO2e
+        value_template: '{{ states.sensor.foobot.attributes.datapoints[0][3] | int  }}'
+        unit_of_measurement: 'ppm'
       foobot_temp:
         friendly_name: Temperature
-        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][2]) }}'
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][4]) }}'
         unit_of_measurement: 'C'
       foobot_humidity:
         friendly_name: Humidity
-        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][3]) }}'
+        value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][5]) }}'
         unit_of_measurement: '%'
-      foobot_voc:
-        friendly_name: VOC
-        value_template: '{{ states.sensor.foobot.attributes.datapoints[0][5] | int  }}'
-        unit_of_measurement: 'ppb'
       foobot_polution:
         friendly_name: Polution
         value_template: '{{ "%.1f" | format(states.sensor.foobot.attributes.datapoints[0][6]) }}'
         unit_of_measurement: '%'
+
+  - platform: jsonrest
+    resource: http://br-aq-monitor.local/get
+    name: AQM
+    scan_interval: 60
+
+  - platform: template
+    name: AQM_data
+    sensors:
+      aqm_temp:
+        friendly_name: Temperature
+        value_template: '{{ "%.1f" | format(states.sensor.aqm.attributes.temp) }}'
+        unit_of_measurement: 'C'
+      aqm_humidity:
+        friendly_name: Humidity
+        value_template: '{{ "%.0f" | format(states.sensor.aqm.attributes.humidity) }}'
+        unit_of_measurement: '%'
+      aqm_pressure:
+        friendly_name: Pressure
+        value_template: '{{ "%.0f" | format(states.sensor.aqm.attributes.pressure) }}'
+        unit_of_measurement: 'Pa'
+      aqm_voc:
+        friendly_name: VOC
+        value_template: '{{ "%.0f" | format(states.sensor.aqm.attributes.voc) }}'
+        unit_of_measurement: 'ppb'
+      aqm_co2e:
+        friendly_name: CO2e
+        value_template: '{{ "%.0f" | format(states.sensor.aqm.attributes.co2e) }}'
+        unit_of_measurement: 'ppm'
 
   - platform: openweathermap
     api_key: !secret openweathermap_api_key
@@ -183,10 +216,8 @@ climate:
 cloud:
 
 influxdb:
-  host: 127.0.0.1
-  username: hass
-  password: hass
-#  database: test
+  host: 192.168.0.55
+  database: home_assistant
 
 group: !include groups.yaml
 automation: !include automations.yaml
